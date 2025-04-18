@@ -1,0 +1,715 @@
+/* Space-themed Pomodoro Timer */
+:root {
+    --nebula-purple: #7e22ce;
+    --deep-space: #0a0e17;
+    --cosmic-blue: #1e40af;
+    --star-white: #f8fafc;
+    --comet-orange: #ea580c;
+    --space-gray: #94a3b8;
+    --meteor-red: #dc2626;
+    --planet-green: #10b981;
+}
+
+.pomodoro-universe {
+    background: linear-gradient(135deg, var(--deep-space) 0%, #16213e 100%);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 25px;
+    max-width: 1000px;
+    margin: 0 auto;
+    min-height: 80vh;
+}
+
+.timer-container {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 30px 30px 40px; /* Added padding-bottom to create space */
+}
+
+.timer-orbit {
+    z-index:-1;
+    position: relative;
+    width: 280px;
+    height: 280px;
+    min-height: 200px;
+    border: 2px dashed rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    animation: rotate 120s linear infinite;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 20px; /* Buffer to prevent overlap */
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.timer-planet {
+    width: 220px;
+    height: 220px;
+    background: radial-gradient(circle at 30% 30%, var(--cosmic-blue), var(--deep-space));
+    border-radius: 50%;
+    box-shadow: 0 0 30px rgba(30, 64, 175, 0.4);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.timer-planet::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, transparent 49%, rgba(255, 255, 255, 0.05) 50%, transparent 51%);
+    border-radius: 50%;
+}
+/* Set text color for all selectors */
+* {
+    color: var(--deep-space);
+}
+span {
+    color: var(--star-white);
+}
+.timer-display {
+    position: absolute;
+    top: 32%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%; /* Constrain width to fit within planet */
+    max-width: 200px; /* Prevent overflow */
+    text-align: center;
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: var(--star-white);
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    z-index: 10;
+    font-family: 'Orbitron', monospace;
+    letter-spacing: 2px;
+    line-height: 1; /* Prevent extra vertical space */
+}
+
+.timer-controls {
+   
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.cosmic-btn {
+    padding: 12px 24px;
+    border-radius: 30px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    min-width: 120px;
+    min-height: 44px;
+    font-size: 1rem;
+    user-select: none;
+}
+
+.cosmic-btn.primary {
+    background: linear-gradient(135deg, var(--nebula-purple) 0%, #5b21b6 100%);
+    color: white;
+}
+
+.cosmic-btn.primary:hover, .cosmic-btn.primary:active {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(126, 34, 206, 0.4);
+}
+
+.cosmic-btn.primary.active {
+    background: linear-gradient(135deg, var(--planet-green) 0%, #059669 100%);
+    box-shadow: 0 0 15px rgba(16, 185, 129, 0.5);
+    transform: scale(1.05);
+}
+
+.cosmic-btn.secondary {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--star-white);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.cosmic-btn.secondary:hover, .cosmic-btn.secondary:active {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.timer-mode {
+    margin-top: 30px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.mode-btn {
+    padding: 8px 16px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    color: var(--space-gray);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 100px;
+    min-height: 44px;
+    font-size: 0.9rem;
+    user-select: none;
+}
+
+.mode-btn:hover, .mode-btn:active {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.mode-btn.active {
+    background: rgba(126, 34, 206, 0.2);
+    color: var(--nebula-purple);
+    border-color: var(--nebula-purple);
+}
+
+.current-task-container, .task-selector, .completed-sessions {
+    background: rgba(10, 14, 23, 0.7);
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.current-task-container:hover, .task-selector:hover, .completed-sessions:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+}
+
+.current-task-container {
+    grid-column: 2;
+    grid-row: 1;
+}
+
+.current-task-container h3, .task-selector h3, .completed-sessions h4 {
+    color: var(--star-white);
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+    background: rgba(30, 64, 175, 0.082);
+    border-radius: 10px;
+    padding: 10px;
+    border-bottom: 1px solid rgba(228, 228, 11, 0.158);
+    padding-bottom: 10px;
+}
+
+.selected-task-details {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 10px;
+    padding: 15px;
+    min-height: 100px;
+    transition: background 0.3s ease;
+}
+
+.selected-task-details:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.selected-task-details h3 {
+    color: var(--nebula-purple);
+    border-bottom: none;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+}
+
+.selected-task-details p {
+    color: var(--space-gray);
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 10px;
+}
+
+.tag {
+    background: rgba(30, 64, 175, 0.15);
+    color: #60a5fa;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+.tag:hover {
+    background: rgba(30, 64, 175, 0.3);
+    color: #3b82f6;
+}
+
+.task-selector {
+    grid-column: 2;
+    grid-row: 2;
+}
+
+#task-select {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--star-white);
+    margin-bottom: 15px;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+#task-select:focus {
+    outline: none;
+    border-color: var(--nebula-purple);
+}
+
+.no-tasks {
+    color: var(--space-gray);
+    font-style: italic;
+}
+
+.completed-sessions {
+    grid-column: 1 / span 2;
+    grid-row: 3;
+}
+
+.completed-sessions h4 {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.sessions-count {
+    display: inline-flex;
+    background: rgba(126, 34, 206, 0.2);
+    color: var(--nebula-purple);
+    border-radius: 15px;
+    padding: 5px 10px;
+    font-size: 0.9rem;
+    margin-left: 10px;
+}
+
+.completed-sessions ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 200px;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+.completed-sessions ul::-webkit-scrollbar {
+    width: 5px;
+}
+
+.completed-sessions ul::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+}
+
+.completed-sessions ul::-webkit-scrollbar-thumb {
+    background: rgba(126, 34, 206, 0.3);
+    border-radius: 10px;
+}
+
+.completed-sessions li {
+    background: rgba(10, 14, 23, 0.6);
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-left: 3px solid transparent;
+    transition: all 0.2s ease;
+}
+
+.completed-sessions li:hover {
+    background: rgba(10, 14, 23, 0.8);
+    transform: translateX(3px);
+}
+
+.completed-sessions li:nth-child(3n+1) {
+    border-left-color: var(--nebula-purple);
+}
+
+.completed-sessions li:nth-child(3n+2) {
+    border-left-color: var(--cosmic-blue);
+}
+
+.completed-sessions li:nth-child(3n+3) {
+    border-left-color: var(--comet-orange);
+}
+
+.completed-sessions li .session-time {
+    color: var(--space-gray);
+    font-family: monospace;
+}
+
+.pomodoro-universe.focus-mode .current-task-container,
+.pomodoro-universe.focus-mode .task-selector,
+.pomodoro-universe.focus-mode .completed-sessions {
+    opacity: 0.4;
+    transition: opacity 0.3s ease;
+}
+
+.pomodoro-universe.focus-mode .timer-container {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(126, 34, 206, 0.3);
+    transform: scale(1.01);
+    transition: all 0.3s ease;
+}
+
+.pomodoro-universe.focus-mode .timer-orbit {
+    border-color: rgba(126, 34, 206, 0.3);
+}
+
+.pomodoro-universe.focus-mode .timer-planet {
+    box-shadow: 0 0 40px rgba(30, 64, 175, 0.6);
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.session-complete {
+    animation: pulse 0.5s ease-in-out 3;
+}
+
+@media (max-width: 900px) {
+    .pomodoro-universe {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto auto;
+        padding: 20px;
+    }
+
+    .timer-container {
+        grid-column: 1;
+        grid-row: 1;
+        padding: 20px 20px 30px;
+    }
+
+    .current-task-container {
+        grid-column: 1;
+        grid-row: 2;
+    }
+
+    .task-selector {
+        grid-column: 1;
+        grid-row: 3;
+    }
+
+    .completed-sessions {
+        grid-column: 1;
+        grid-row: 4;
+    }
+}
+
+@media (max-width: 768px) {
+    .pomodoro-universe {
+        padding: 15px;
+    }
+
+    .timer-container {
+        padding: 15px 15px 25px;
+    }
+
+    .timer-orbit {
+        width: 220px;
+        height: 220px;
+        min-height: 180px;
+        padding-bottom: 15px;
+    }
+
+    .timer-planet {
+        width: 180px;
+        height: 180px;
+    }
+
+    .timer-display {
+        font-size: 2.2rem;
+        max-width: 150px;
+    }
+
+    .timer-controls {
+        margin-top: 40px; /* Adjusted to prevent overlap */
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+    }
+
+    .cosmic-btn {
+        width: 100%;
+        padding: 10px;
+        min-height: 48px;
+        font-size: 0.9rem;
+    }
+
+    .cosmic-btn.primary.active {
+        margin: 5px 0;
+    }
+
+    .timer-mode {
+        margin-top: 20px;
+        flex-direction: row;
+        gap: 8px;
+        width: 100%;
+    }
+
+    .mode-btn {
+        flex: 1;
+        padding: 10px;
+        min-height: 44px;
+        font-size: 0.85rem;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .pomodoro-universe {
+        padding: 10px;
+    }
+
+    .timer-container {
+        padding: 10px 10px 20px;
+    }
+
+    .timer-orbit {
+        width: 180px;
+        height: 180px;
+        min-height: 150px;
+        padding-bottom: 10px;
+    }
+
+    .timer-planet {
+        width: 150px;
+        height: 150px;
+    }
+
+    .timer-display {
+        font-size: 1.8rem;
+        max-width: 120px;
+    }
+
+    .timer-controls {
+        margin-top: 30px;
+        gap: 8px;
+    }
+
+    .cosmic-btn {
+        padding: 8px;
+        min-height: 44px;
+        font-size: 0.85rem;
+    }
+
+    .timer-mode {
+        margin-top: 15px;
+        gap: 6px;
+    }
+
+    .mode-btn {
+        padding: 8px;
+        font-size: 0.8rem;
+    }
+
+    .current-task-container, .task-selector, .completed-sessions {
+        padding: 10px;
+    }
+
+    .selected-task-details {
+        padding: 8px;
+        min-height: 80px;
+    }
+
+    #task-select {
+        padding: 8px;
+        font-size: 0.9rem;
+    }
+
+    .current-task-container h3, .task-selector h3, .completed-sessions h4 {
+        font-size: 1rem;
+    }
+
+    .selected-task-details h3 {
+        font-size: 0.95rem;
+    }
+
+    .selected-task-details p {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 380px) {
+    .pomodoro-universe {
+        padding: 8px;
+    }
+
+    .timer-container {
+        padding: 8px 8px 15px;
+    }
+
+    .timer-orbit {
+        width: 160px;
+        height: 160px;
+        min-height: 140px;
+        padding-bottom: 8px;
+    }
+
+    .timer-planet {
+        width: 130px;
+        height: 130px;
+    }
+
+    .timer-display {
+        font-size: 1.6rem;
+        max-width: 100px;
+    }
+
+    .timer-controls {
+        margin-top: 25px;
+        gap: 6px;
+    }
+
+    .cosmic-btn {
+        padding: 7px;
+        min-height: 42px;
+        font-size: 0.8rem;
+    }
+
+    .timer-mode {
+        margin-top: 12px;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .mode-btn {
+        padding: 7px;
+        font-size: 0.75rem;
+        width: 100%;
+    }
+
+    .current-task-container, .task-selector, .completed-sessions {
+        padding: 8px;
+    }
+
+    .selected-task-details {
+        padding: 6px;
+        min-height: 70px;
+    }
+
+    #task-select {
+        padding: 6px;
+        font-size: 0.85rem;
+    }
+
+    .sessions-count {
+        font-size: 0.8rem;
+        padding: 4px 8px;
+    }
+
+    .completed-sessions li {
+        font-size: 0.75rem;
+        padding: 6px 10px;
+    }
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+.modal-content {
+    background: var(--deep-space);
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+    max-width: 90%;
+    width: 300px;
+}
+.modal-content input {
+    width: 100%;
+    padding: 8px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--star-white);
+    margin-bottom: 10px;
+}
+.modal-content input:focus {
+    outline: none;
+    border-color: var(--nebula-purple);
+}
+@media (max-width: 480px) {
+    .modal-content { padding: 15px; max-width: 85%; }
+    .modal-content h3 { font-size: 1rem; }
+    .modal-content p { font-size: 0.9rem; }
+}
+
+.sessions-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--star-white);
+    margin-bottom: 15px;
+}
+
+.sessions-count {
+    color: var(--star-white);
+    font-size: 0.9rem;
+    opacity: 0.8;
+    padding: 4px 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+}
+
+.completed-sessions {
+    margin-top: 20px;
+    padding: 15px;
+    color: var(--star-white);
+    border-radius: 5px;
+}
+
+.session-item {
+    margin: 10px 0;
+  
+    color: var(--star-white);
+    border-radius: 3px;
+    border-left: 4px solid #4CAF50;
+}
+
+.session-item.break {
+    border-left-color: #2196F3;
+}

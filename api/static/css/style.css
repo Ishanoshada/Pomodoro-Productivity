@@ -1,0 +1,1555 @@
+/* static/css/style.css */
+:root {
+    --space-black: #0a0e17;
+    --deep-space: #111827;
+    --cosmic-blue: #1e3a8a;
+    --nebula-purple: #7e22ce;
+    --star-yellow: #fbbf24;
+    --planet-green: #10b981;
+    --meteor-red: #ef4444;
+    --space-gray: #6b7280;
+    --cosmic-white: #f3f4f6;
+    --orbit-blue: #3b82f6;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: revert;
+    color: var(--cosmic-white);
+    overflow-x: hidden;
+    position: relative;
+    min-height: 100vh;
+}
+
+/* Universe Background Animation */
+.universe-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.stars, .twinkling, .clouds {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.stars {
+    background: #000 url('../img/stars.png') repeat top center;
+    z-index: -3;
+}
+
+.twinkling {
+    background: transparent url('../img/twinkling.png') repeat top center;
+    z-index: -2;
+    animation: twinkle 200s linear infinite;
+}
+
+.clouds {
+    background: transparent url('../img/clouds.png') repeat top center;
+    z-index: -1;
+    opacity: 0.4;
+    animation: clouds 200s linear infinite;
+}
+
+@keyframes twinkle {
+    from { background-position: 0 0; }
+    to { background-position: -10000px 5000px; }
+}
+
+@keyframes clouds {
+    from { background-position: 0 0; }
+    to { background-position: 10000px -5000px; }
+}
+
+/* Main Container */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 80px 20px 40px;
+    position: relative;
+    z-index: 1;
+}
+
+/* Cosmic Navigation */
+.cosmic-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(10, 14, 23, 0.8);
+    backdrop-filter: blur(10px);
+    padding: 15px 0;
+    z-index: 100;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.logo a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: var(--cosmic-white);
+    font-weight: 700;
+    font-size: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.logo a:hover {
+    color: var(--star-yellow);
+}
+
+.logo .planet {
+    width: 24px;
+    height: 24px;
+    background: var(--planet-green);
+    border-radius: 50%;
+    margin-right: 10px;
+    position: relative;
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.6);
+}
+
+.logo .planet:before {
+    content: '';
+    position: absolute;
+    width: 30px;
+    height: 6px;
+    background: rgba(16, 185, 129, 0.2);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(30deg);
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+}
+
+.nav-links li {
+    margin-left: 30px;
+}
+
+.nav-links a {
+    color: var(--cosmic-white);
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.nav-links a:hover {
+    color: var(--star-yellow);
+}
+
+.nav-links a:after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--star-yellow);
+    transition: width 0.3s ease;
+}
+
+.nav-links a:hover:after {
+    width: 100%;
+}
+
+/* Cosmic Buttons */
+.cosmic-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    outline: none;
+    font-family: inherit;
+    text-align: center;
+}
+
+.cosmic-btn.primary {
+    background: linear-gradient(135deg, var(--nebula-purple), var(--cosmic-blue));
+    color: var(--cosmic-white);
+    box-shadow: 0 4px 20px rgba(126, 34, 206, 0.4);
+}
+
+.cosmic-btn.primary:hover {
+    box-shadow: 0 6px 25px rgba(126, 34, 206, 0.6);
+    transform: translateY(-2px);
+}
+
+.cosmic-btn.secondary {
+    background: rgba(107, 114, 128, 0.2);
+    color: var(--cosmic-white);
+    border: 1px solid var(--space-gray);
+}
+
+.cosmic-btn.secondary:hover {
+    background: rgba(107, 114, 128, 0.3);
+}
+
+.cosmic-btn.small {
+    padding: 5px 15px;
+    font-size: 0.9rem;
+}
+
+/* Form Styles */
+.cosmic-form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 70vh;
+}
+
+.form-nebula {
+    background: rgba(17, 24, 39, 0.7);
+    backdrop-filter: blur(10px);
+    padding: 40px;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3),
+                0 0 80px rgba(126, 34, 206, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.form-nebula:before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(ellipse at center, 
+                rgba(126, 34, 206, 0.1) 0%,
+                rgba(30, 58, 138, 0.05) 50%,
+                rgba(0, 0, 0, 0) 70%);
+    z-index: -1;
+    animation: nebula-glow 15s infinite alternate;
+}
+
+@keyframes nebula-glow {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.cosmic-form h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 2rem;
+    color: var(--cosmic-white);
+    font-weight: 700;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--cosmic-white);
+}
+
+.cosmic-form input,
+.cosmic-form textarea,
+.cosmic-form select {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 8px;
+    border: 1px solid rgba(107, 114, 128, 0.3);
+    background: rgba(17, 24, 39, 0.6);
+    color: var(--cosmic-white);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.cosmic-form input:focus,
+.cosmic-form textarea:focus,
+.cosmic-form select:focus {
+    outline: none;
+    border-color: var(--nebula-purple);
+    box-shadow: 0 0 0 3px rgba(126, 34, 206, 0.2);
+}
+
+.form-footer {
+    text-align: center;
+    margin-top: 20px;
+    color: var(--space-gray);
+}
+
+.form-footer a {
+    color: var(--nebula-purple);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.form-footer a:hover {
+    text-decoration: underline;
+}
+
+/* Alert Messages */
+.alert {
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    animation: fade-in 0.3s ease;
+}
+
+.alert-success {
+    background: rgba(16, 185, 129, 0.2);
+    border-left: 4px solid var(--planet-green);
+    color: var(--planet-green);
+}
+
+.alert-error {
+    background: rgba(239, 68, 68, 0.2);
+    border-left: 4px solid var(--meteor-red);
+    color: var(--meteor-red);
+}
+
+.alert-info {
+    background: rgba(59, 130, 246, 0.2);
+    border-left: 4px solid var(--orbit-blue);
+    color: var(--orbit-blue);
+}
+
+@keyframes fade-in {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Footer */
+.cosmic-footer {
+    padding: 20px;
+    text-align: center;
+    color: var(--space-gray);
+    margin-top: 40px;
+}
+
+/* Hero Section */
+.cosmic-hero {
+    text-align: center;
+    padding: 40px 0 80px;
+    position: relative;
+}
+
+.planet-animation {
+    margin: 0 auto 40px;
+    width: 150px;
+    height: 150px;
+    position: relative;
+}
+
+.planet-orbit {
+    width: 150px;
+    height: 150px;
+    border: 2px solid rgba(59, 130, 246, 0.3);
+    border-radius: 50%;
+    position: absolute;
+    animation: orbit-rotate 20s linear infinite;
+}
+
+.planet {
+    width: 50px;
+    height: 50px;
+    background: var(--planet-green);
+    border-radius: 50%;
+    position: absolute;
+    top: -25px;
+    left: calc(50% - 25px);
+    box-shadow: 0 0 30px rgba(16, 185, 129, 0.6);
+}
+
+@keyframes orbit-rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.cosmic-hero h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, var(--cosmic-white), var(--nebula-purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+}
+
+.cosmic-hero p {
+    font-size: 1.2rem;
+    color: var(--space-gray);
+    margin-bottom: 40px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.cta-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+/* Features Section */
+.features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin: 40px 0;
+}
+
+.feature-card {
+    background: rgba(17, 24, 39, 0.7);
+    backdrop-filter: blur(5px);
+    border-radius: 15px;
+    padding: 30px;
+    text-align: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.feature-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 20px;
+    position: relative;
+    border-radius: 50%;
+}
+
+.planet-icon {
+    background: var(--planet-green);
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+}
+
+.star-icon {
+    background: var(--star-yellow);
+    box-shadow: 0 0 20px rgba(251, 191, 36, 0.4);
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+}
+
+.rocket-icon {
+    background: var(--meteor-red);
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.4);
+    clip-path: polygon(50% 0%, 100% 70%, 70% 70%, 70% 100%, 30% 100%, 30% 70%, 0% 70%);
+}
+
+.feature-card h3 {
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.feature-card p {
+    color: var(--space-gray);
+    line-height: 1.6;
+}
+
+/* Dashboard Styles */
+.dashboard-container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.user-constellation {
+    text-align: center;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.user-planet {
+    width: 80px;
+    height: 80px;
+    background: var(--nebula-purple);
+    border-radius: 50%;
+    margin: 0 auto 20px;
+    position: relative;
+    box-shadow: 0 0 30px rgba(126, 34, 206, 0.5);
+}
+
+.user-planet:before {
+    content: '';
+    position: absolute;
+    width: 100px;
+    height: 20px;
+    background: rgba(126, 34, 206, 0.2);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(30deg);
+}
+
+.dashboard-content {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 30px;
+}
+
+@media (max-width: 768px) {
+    .dashboard-content {
+        grid-template-columns: 1fr;
+    }
+}
+
+.task-galaxy, .productivity-stats {
+    background: rgba(17, 24, 39, 0.7);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.task-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-height: 500px;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+/* Stylish scrollbar */
+.task-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.task-list::-webkit-scrollbar-track {
+    background: rgba(107, 114, 128, 0.1);
+    border-radius: 3px;
+}
+
+.task-list::-webkit-scrollbar-thumb {
+    background: rgba(126, 34, 206, 0.3);
+    border-radius: 3px;
+}
+
+.task-list::-webkit-scrollbar-thumb:hover {
+    background: rgba(126, 34, 206, 0.5);
+}
+
+.task-card {
+    background: rgba(10, 14, 23, 0.6);
+    border-radius: 8px;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.task-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.task-card.completed {
+    opacity: 0.6;
+    background: rgba(10, 14, 23, 0.4);
+}
+
+.task-card.completed h4 {
+    text-decoration: line-through;
+}
+
+.task-content {
+    flex: 1;
+}
+
+.task-content h4 {
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.task-content p {
+    color: var(--space-gray);
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+}
+
+.task-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.tag {
+    background: rgba(126, 34, 206, 0.2);
+    color: var(--nebula-purple);
+    border-radius: 20px;
+    padding: 2px 10px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.empty-tasks {
+    text-align: center;
+    padding: 30px 0;
+    color: var(--space-gray);
+}
+
+.empty-planet {
+    width: 60px;
+    height: 60px;
+    background: var(--deep-space);
+    border-radius: 50%;
+    margin: 0 auto 15px;
+    opacity: 0.5;
+    position: relative;
+}
+
+.empty-planet:before {
+    content: '';
+    position: absolute;
+    width: 80px;
+    height: 10px;
+    background: rgba(107, 114, 128, 0.1);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(30deg);
+}
+
+.productivity-stats {
+    display: flex;
+    flex-direction: column;
+}
+
+.productivity-stats h3 {
+    margin-bottom: 20px;
+}
+
+.stats-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    flex: 1;
+}
+
+.stat-card {
+    background: rgba(10, 14, 23, 0.6);
+    border-radius: 8px;
+    padding: 15px;
+    text-align: center;
+}
+
+.stat-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 5px;
+    color: var(--orbit-blue);
+}
+
+.stat-label {
+    color: var(--space-gray);
+    font-size: 0.9rem;
+}
+
+/* Modal Styles */
+.cosmic-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+    overflow: auto;
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background: var(--deep-space);
+    margin: 10% auto;
+    padding: 30px;
+    border-radius: 15px;
+    max-width: 500px;
+    position: relative;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    animation: modal-open 0.3s ease;
+}
+
+@keyframes modal-open {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.close-modal {
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    font-size: 1.5rem;
+    color: var(--space-gray);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.close-modal:hover {
+    color: var(--meteor-red);
+}
+
+.modal-content h3 {
+    color:#1e3a8a;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+/* Pomodoro Specific Styles */
+.pomodoro-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+
+@media (max-width: 768px) {
+    .pomodoro-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+.pomodoro-universe {
+    background: rgba(17, 24, 39, 0.7);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.timer-planet {
+    width: 200px;
+    height: 200px;
+    background: var(--nebula-purple);
+    border-radius: 50%;
+    margin: 20px auto;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0 40px rgba(126, 34, 206, 0.5);
+    transition: all 0.3s ease;
+}
+
+.timer-orbit {
+    position: absolute;
+    width: 240px;
+    height: 240px;
+    border: 2px solid rgba(59, 130, 246, 0.3);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: orbit-rotate 20s linear infinite;
+}
+
+.timer-display {
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--cosmic-white);
+}
+
+.timer-controls {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.timer-mode {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.mode-btn {
+    background: rgba(107, 114, 128, 0.1);
+    border: 1px solid rgba(107, 114, 128, 0.2);
+    color: var(--cosmic-white);
+    padding: 8px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: inherit;
+    font-size: 0.9rem;
+}
+
+.mode-btn:hover {
+    background: rgba(107, 114, 128, 0.2);
+}
+
+.mode-btn.active {
+    background: rgba(126, 34, 206, 0.2);
+    border-color: var(--nebula-purple);
+    color: var(--nebula-purple);
+}
+
+.current-task-container {
+    background: rgba(17, 24, 39, 0.7);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.task-selector {
+    margin: 20px 0;
+}
+
+.cosmic-select {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 8px;
+    border: 1px solid rgba(107, 114, 128, 0.3);
+    background: rgba(17, 24, 39, 0.6);
+    color: var(--cosmic-white);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: 16px;
+}
+
+.cosmic-select:focus {
+    outline: none;
+    border-color: var(--nebula-purple);
+    box-shadow: 0 0 0 3px rgba(126, 34, 206, 0.2);
+}
+
+.selected-task-details {
+    background: rgba(10, 14, 23, 0.6);
+    border-radius: 8px;
+    padding: 15px;
+    margin-top: 20px;
+}
+
+.selected-task-details h4 {
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.selected-task-details p {
+    color: var(--space-gray);
+    margin-bottom: 15px;
+    font-size: 0.9rem;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 480px) {
+    .cosmic-hero h1 {
+        font-size: 2.2rem;
+    }
+    
+    .cosmic-hero p {
+        font-size: 1rem;
+    }
+    
+    .cta-buttons {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .timer-planet {
+        width: 150px;
+        height: 150px;
+    }
+    
+    .timer-orbit {
+        width: 180px;
+        height: 180px;
+    }
+    
+    .timer-display {
+        font-size: 2.5rem;
+    }
+}
+
+/* static/css/pomodoro.css */
+
+/* Pomodoro Timer Specific Styles */
+.timer-planet {
+    position: relative;
+    overflow: hidden;
+}
+
+.timer-planet::after {
+    content: '';
+    position: absolute;
+    width: 120%;
+    height: 30px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(30deg);
+}
+
+.timer-star {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    animation: twinkle-star 3s infinite alternate;
+}
+
+@keyframes twinkle-star {
+    0% { opacity: 0.2; }
+    100% { opacity: 0.8; }
+}
+
+.timer-orbit {
+    position: absolute;
+    border: 2px solid rgba(59, 130, 246, 0.3);
+    border-radius: 50%;
+}
+
+/* Timer modes */
+.timer-mode {
+    margin-top: 20px;
+    width: 100%;
+}
+
+/* Timer counting down animation */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.timer-planet.active {
+    animation: pulse 2s infinite;
+}
+
+/* Shooting stars */
+.shooting-star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: white;
+    border-radius: 50%;
+    animation: shooting 3s linear infinite;
+    opacity: 0;
+}
+
+@keyframes shooting {
+    0% {
+        transform: translateX(0) translateY(0) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    20% {
+        transform: translateX(20vw) translateY(20vh) rotate(45deg);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(20vw) translateY(20vh) rotate(45deg);
+        opacity: 0;
+    }
+}
+
+/* Task completion animation */
+@keyframes task-complete {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); box-shadow: 0 0 30px rgba(16, 185, 129, 0.6); }
+    100% { transform: scale(1); }
+}
+
+.task-complete-animation {
+    animation: task-complete 1s ease;
+}
+
+/* Timer completion celebration */
+.timer-celebration {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.timer-celebration.active {
+    opacity: 1;
+}
+
+.celebration-particle {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: var(--star-yellow);
+    border-radius: 50%;
+    animation: celebration-burst 1.5s ease-out forwards;
+}
+
+@keyframes celebration-burst {
+    0% {
+        transform: translate(0, 0);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(var(--tx, 0), var(--ty, 0));
+        opacity: 0;
+    }
+}
+
+/* Space dust particles in background */
+.space-dust {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+}
+
+/* Task selection enhancement */
+.cosmic-select {
+    cursor: pointer;
+    position: relative;
+}
+
+.cosmic-select option {
+    background: var(--deep-space);
+    color: var(--cosmic-white);
+    padding: 10px;
+}
+
+/* Selected task highlight */
+.selected-task-details {
+    position: relative;
+    overflow: hidden;
+}
+
+.selected-task-details::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(
+        ellipse at center, 
+        rgba(59, 130, 246, 0.1) 0%,
+        rgba(59, 130, 246, 0.05) 30%,
+        rgba(0, 0, 0, 0) 70%
+    );
+    z-index: -1;
+    animation: nebula-glow 20s infinite alternate;
+    opacity: 0.5;
+}
+
+/* Task tags in pomodoro view */
+.selected-task-details .task-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 10px;
+}
+
+/* Timer button enhancements */
+.timer-controls .cosmic-btn {
+    position: relative;
+    overflow: hidden;
+}
+
+.timer-controls .cosmic-btn::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(
+        circle at center,
+        rgba(255, 255, 255, 0.2) 0%,
+        rgba(255, 255, 255, 0) 70%
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.timer-controls .cosmic-btn:hover::after {
+    opacity: 1;
+}
+
+/* Completed timer section */
+.completed-sessions {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(107, 114, 128, 0.2);
+}
+
+.completed-sessions h4 {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+}
+
+
+/* User constellation section */
+.user-constellation {
+    padding: 30px 0;
+    text-align: center;
+    position: relative;
+}
+
+.user-constellation:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 20%;
+    width: 60%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--nebula-purple), transparent);
+}
+
+.user-constellation h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    background: linear-gradient(135deg, var(--cosmic-white), var(--nebula-purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.user-constellation p {
+    color: var(--space-gray);
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Task styling enhancements */
+.task-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.task-completed-label {
+    color: var(--planet-green);
+    font-size: 0.9rem;
+    padding: 5px 10px;
+    background: rgba(16, 185, 129, 0.1);
+    border-radius: 20px;
+    display: inline-block;
+}
+
+/* Full width button */
+.cosmic-btn.full-width {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Quick links section */
+.quick-links {
+    margin-top: 30px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(107, 114, 128, 0.2);
+}
+
+.quick-links h4 {
+    margin-bottom: 15px;
+    color: var(--cosmic-white);
+}
+
+/* Tips carousel */
+.cosmic-tips {
+    margin-top: 40px;
+    padding: 25px;
+    background: rgba(17, 24, 39, 0.7);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.cosmic-tips h3 {
+    margin-bottom: 20px;
+}
+
+.tip-carousel {
+    position: relative;
+    height: 80px;
+    margin-bottom: 15px;
+}
+
+.tip {
+    position: absolute;
+    width: 100%;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    padding: 0 20px;
+}
+
+.tip.active {
+    opacity: 1;
+}
+
+.tip p {
+    color: var(--cosmic-white);
+    font-style: italic;
+}
+
+.carousel-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    background: rgba(107, 114, 128, 0.3);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.dot.active {
+    background: var(--nebula-purple);
+    transform: scale(1.2);
+}
+
+/* Task priority indicators */
+.task-card[data-priority="high"] {
+    border-left: 3px solid var(--meteor-red);
+}
+
+.task-card[data-priority="medium"] {
+    border-left: 3px solid var(--star-yellow);
+}
+
+.task-card[data-priority="low"] {
+    border-left: 3px solid var(--planet-green);
+}
+
+/* Enhanced dashboard responsiveness */
+@media (max-width: 768px) {
+    .user-constellation h1 {
+        font-size: 2rem;
+    }
+    
+    .task-card {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .task-actions {
+        justify-content: flex-end;
+        width: 100%;
+    }
+    
+    .cosmic-btn.full-width {
+        padding: 8px 15px;
+    }
+    
+    .cosmic-tips {
+        padding: 20px 15px;
+    }
+    
+    .tip-carousel {
+        height: 100px;
+    }
+}
+
+/* Custom scrollbar for task list */
+.task-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.task-list::-webkit-scrollbar-track {
+    background: rgba(107, 114, 128, 0.1);
+    border-radius: 3px;
+}
+
+.task-list::-webkit-scrollbar-thumb {
+    background: rgba(126, 34, 206, 0.3);
+    border-radius: 3px;
+}
+
+.task-list::-webkit-scrollbar-thumb:hover {
+    background: rgba(126, 34, 206, 0.5);
+}
+
+/* Task hover effect with subtle glow */
+.task-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 20px rgba(126, 34, 206, 0.15);
+}
+
+/* Animated stats for engagement */
+.stat-value {
+    position: relative;
+    display: inline-block;
+}
+
+.stat-value::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background: var(--orbit-blue);
+    transition: width 0.3s ease;
+}
+
+.stat-card:hover .stat-value::after {
+    width: 80%;
+}
+
+/* Empty state styling improvement */
+.empty-tasks {
+    padding: 40px 20px;
+}
+.nav-links a {
+    font-family: initial;
+    font-size: 1rem;
+  
+}
+
+.empty-tasks h4 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: var(--cosmic-white);
+}
+
+.empty-tasks p {
+    color: var(--space-gray);
+    max-width: 250px;
+    margin: 0 auto;
+}
+
+strong,small{
+    color: var(--planet-green);
+}
+
+/* Hamburger menu icon */
+.nav-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30px;
+    height: 21px;
+    cursor: pointer;
+    padding: 0;
+    background: none;
+    border: none;
+}
+
+.nav-toggle span {
+    display: block;
+    width: 100%;
+    height: 3px;
+    background: var(--cosmic-white);
+    border-radius: 3px;
+    transition: all 0.3s ease;
+}
+
+/* Responsive navigation */
+@media screen and (max-width: 768px) {
+    .nav-toggle {
+        display: flex;
+    }
+
+    .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        background: rgba(10, 14, 23, 0.95);
+        backdrop-filter: blur(10px);
+        padding: 20px;
+        gap: 15px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .nav-links.active {
+        display: flex;
+        animation: slideDown 0.3s ease forwards;
+    }
+
+    .nav-links li {
+        margin: 0;
+        width: 100%;
+        text-align: center;
+    }
+
+    .nav-links a {
+        display: block;
+        padding: 12px;
+        width: 100%;
+    }
+
+    /* Hamburger menu animation */
+    .nav-toggle.active span:first-child {
+        transform: translateY(9px) rotate(45deg);
+    }
+
+    .nav-toggle.active span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .nav-toggle.active span:last-child {
+        transform: translateY(-9px) rotate(-45deg);
+    }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Additional navbar enhancements */
+.nav-container {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-links a {
+    position: relative;
+    padding: 5px 0;
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--nebula-purple);
+    transition: width 0.3s ease;
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+/* Add these styles */
+.date-range {
+    margin-bottom: 20px;
+}
+
+.date-inputs {
+    display: flex;
+    gap: 15px;
+}
+
+.date-inputs > div {
+    flex: 1;
+}
+
+.date-inputs input[type="date"] {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--star-white);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.date-inputs input[type="date"]:focus {
+    outline: none;
+    border-color: var(--nebula-purple);
+    box-shadow: 0 0 0 2px rgba(126, 34, 206, 0.2);
+}
+
+.date-inputs input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    opacity: 0.5;
+    cursor: pointer;
+}
+
+.date-inputs input[type="date"]:hover::-webkit-calendar-picker-indicator {
+    opacity: 0.8;
+}
+
+.task-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.cosmic-btn.danger {
+    background: rgba(239, 68, 68, 0.1);
+    color: rgb(239, 68, 68);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.cosmic-btn.danger:hover {
+    background: rgba(239, 68, 68, 0.2);
+}

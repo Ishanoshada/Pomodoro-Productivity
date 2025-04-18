@@ -1,0 +1,38 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Welcome{% endblock %}
+
+{% block content %}
+<div class="cosmic-hero">
+    <div class="planet-animation">
+        <div class="planet-orbit">
+            <div class="planet"></div>
+        </div>
+    </div>
+    <h1>Welcome to Pomodoro Universe</h1>
+    <p>Track your productivity across the cosmos with our universe-themed Pomodoro timer.</p>
+    <div class="cta-buttons">
+        <a href="{{ url_for('register') }}" class="cosmic-btn primary">Get Started</a>
+        <a href="{{ url_for('login') }}" class="cosmic-btn secondary">Login</a>
+    </div>
+</div>
+
+<div class="features">
+    <div class="feature-card">
+        <div class="feature-icon planet-icon"></div>
+        <h3>Cosmic Focus</h3>
+        <p>Improve your concentration with our universe-themed Pomodoro timer</p>
+    </div>
+    <div class="feature-card">
+        <div class="feature-icon star-icon"></div>
+        <h3>Task Constellation</h3>
+        <p>Organize your daily tasks with custom tags and categories</p>
+    </div>
+    <div class="feature-card">
+        <div class="feature-icon rocket-icon"></div>
+        <h3>Progress Trajectory</h3>
+        <p>Track your productivity journey through space and time</p>
+    </div>
+</div>
+{% endblock %}

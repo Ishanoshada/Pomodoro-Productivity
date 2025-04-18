@@ -1,0 +1,253 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard - Cosmic Productivity{% endblock %}
+{% block content %}
+<div class="dashboard-container">
+    <!-- User welcome section with animated planet -->
+    <div class="user-constellation">
+        <div class="user-planet"></div>
+        <h1>Welcome to Your Universe, {{ username }}</h1>
+        <p>Track your cosmic productivity journey and conquer your tasks</p>
+    </div>
+
+    <div class="dashboard-content">
+        <!-- Main task management area -->
+        <div class="task-galaxy">
+            <div class="section-header">
+                <h2>Your Task Orbit</h2>
+                <button id="add-task-btn" class="cosmic-btn primary small">Add New Task</button>
+            </div>
+
+            <!-- Task list with improved styling -->
+            <div class="task-list">
+                {% if tasks|length > 0 %}
+                    {% for task in tasks %}
+                        <div class="task-card {% if task.completed %}completed{% endif %}">
+                            <div class="task-content">
+                                <h4>{{ task.title }}</h4>
+                                <p>{{ task.description|default('No description', true) }}</p>
+                                <div class="task-tags">
+                                    {% for tag in task.tags %}
+                                        <span class="tag">{{ tag }}</span>
+                                    {% endfor %}
+                                </div>
+                                <div class="task-time">
+                                    <p>Work Time: {{ (task.work_time / 60)|round(1) }} hours</p>
+                                    <p>Break Time: {{ (task.break_time / 60)|round(1) }} hours</p>
+                                </div>
+                            </div>
+                            <div class="task-actions">
+                                {% if not task.completed %}
+                                    <a href="{{ url_for('complete_task', task_id=task._id) }}" class="cosmic-btn secondary small">Complete</a>
+                                    <button class="cosmic-btn secondary small edit-task-btn" data-task-id="{{ task._id }}">Edit</button>
+                                    <a href="{{ url_for('delete_task', task_id=task._id) }}" class="cosmic-btn danger small" onclick="return confirm('Are you sure you want to delete this task?')">Delete</a>
+                                {% else %}
+                                    <span class="task-completed-label">Completed</span>
+                                {% endif %}
+                            </div>
+                           
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="empty-tasks">
+                        <div class="empty-planet"></div>
+                        <h4>Your orbit is empty</h4>
+                        <p>Add your first task to begin your productivity journey</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        <div id="edit-task-modal" class="cosmic-modal">
+            <div class="modal-content">
+                <span class="close-modal">×</span>
+                <h3>Edit Task</h3>
+                <form action="{{ url_for('edit_task') }}" method="POST" class="cosmic-form">
+                    <input type="hidden" id="edit_task_id" name="task_id">
+                    <div class="form-group">
+                        <label for="edit_title">Task Title</label>
+                        <input type="text" id="edit_title" name="title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_description">Description</label>
+                        <textarea id="edit_description" name="description"></textarea>
+                    </div>
+                    <div class="form-group date-range">
+                        <label>Task Date Range</label>
+                        <div class="date-inputs">
+                            <div>
+                                <label for="edit_start_date">Start Date</label>
+                                <input type="date" id="edit_start_date" name="start_date" required>
+                            </div>
+                            <div>
+                                <label for="edit_end_date">End Date</label>
+                                <input type="date" id="edit_end_date" name="end_date" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_tags">Tags</label>
+                        <input type="text" id="edit_tags" name="tags" placeholder="work, study, personal (comma-separated)">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_priority">Priority</label>
+                        <select id="edit_priority" name="priority" class="cosmic-select">
+                            <option value="low">Low</option>
+                            <option value="medium">Medium</option>
+                            <option value="high">High</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="cosmic-btn primary full-width">Update Task</button>
+                </form>
+            </div>
+        </div>
+        <!-- Productivity stats sidebar -->
+        <div class="productivity-stats">
+            <h3>Cosmic Stats</h3>
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-value">{{ completed_tasks|default(0) }}</div>
+                    <div class="stat-label">Tasks Completed Today</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">{{ total_time|default('0h 0m') }}</div>
+                    <div class="stat-label">Total Time Today</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">{{ completion_rate|default('0%') }}</div>
+                    <div class="stat-label">Completion Rate</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">{{ streak|default(0) }}</div>
+                    <div class="stat-label">Day Streak</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">{{ best_streak|default(0) }} </div>
+                    <div class="stat-label">Best Streak</div>
+
+                </div>
+            </div>
+            
+            <!-- Quick links section -->
+            <div class="quick-links">
+                <h4>Quick Actions</h4>
+                <a href="{{ url_for('pomodoro') }}" class="cosmic-btn secondary full-width">Launch Pomodoro Timer</a>
+                <a href="{{ url_for('analytics') }}" class="cosmic-btn secondary full-width">View Analytics</a>
+            </div>
+        </div>
+    </div>
+    <!-- Inside task modal -->
+    <div id="task-modal" class="cosmic-modal">
+        <div class="modal-content">
+            <span class="close-modal">×</span>
+            <h3>Add New Task</h3>
+            <form action="{{ url_for('add_task') }}" method="POST" class="cosmic-form">
+                <div class="form-group">
+                    <label for="title">Task Title</label>
+                    <input type="text" id="title" name="title" placeholder="What needs to be done?" required>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea id="description" name="description" placeholder="Add details about your task"></textarea>
+                </div>
+                <div class="form-group date-range">
+                    <label>Task Date Range</label>
+                    <div class="date-inputs">
+                        <div>
+                            <label for="start_date">Start Date</label>
+                            <input type="date" id="start_date" name="start_date" required>
+                        </div>
+                        <div>
+                            <label for="end_date">End Date</label>
+                            <input type="date" id="end_date" name="end_date" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="tags">Tags</label>
+                    <input type="text" id="tags" name="tags" placeholder="work, study, personal (comma-separated)">
+                </div>
+                <div class="form-group">
+                    <label for="priority">Priority</label>
+                    <select id="priority" name="priority" class="cosmic-select">
+                        <option value="low">Low</option>
+                        <option value="medium" selected>Medium</option>
+                        <option value="high">High</option>
+                    </select>
+                </div>
+                <button type="submit" class="cosmic-btn primary full-width">Launch Task</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Quick tips section -->
+    <div class="cosmic-tips">
+        <h3>Cosmic Productivity Tips</h3>
+        <div class="tip-carousel">
+            <div class="tip active">
+                <p>Break large tasks into smaller, more manageable steps to avoid feeling overwhelmed.</p>
+            </div>
+            <div class="tip">
+                <p>Use the Pomodoro technique - 25 minutes of focused work followed by a 5-minute break.</p>
+            </div>
+            <div class="tip">
+                <p>Set specific goals for each day to maintain focus and track your progress.</p>
+            </div>
+        </div>
+        <div class="carousel-dots">
+            <span class="dot active"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+        </div>
+    </div>
+</div>
+
+<!-- Add JavaScript for modal functionality -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const modal = document.getElementById('task-modal');
+        const addTaskBtn = document.getElementById('add-task-btn');
+        const closeBtn = document.querySelector('.close-modal');
+        
+        // Open modal
+        addTaskBtn.addEventListener('click', function() {
+            modal.style.display = 'block';
+        });
+        
+        // Close modal
+        closeBtn.addEventListener('click', function() {
+            modal.style.display = 'none';
+        });
+        
+        // Close modal when clicking outside
+        window.addEventListener('click', function(event) {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+        
+        // Tip carousel
+        const tips = document.querySelectorAll('.tip');
+        const dots = document.querySelectorAll('.dot');
+        let currentTip = 0;
+        
+        function showTip(index) {
+            tips.forEach(tip => tip.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+            tips[index].classList.add('active');
+            dots[index].classList.add('active');
+            currentTip = index;
+        }
+        
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                showTip(index);
+            });
+        });
+        
+        // Auto rotate tips
+        setInterval(() => {
+            currentTip = (currentTip + 1) % tips.length;
+            showTip(currentTip);
+        }, 8000);
+    });
+</script>
+{% endblock %}

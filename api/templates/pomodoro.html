@@ -1,0 +1,213 @@
+{% extends 'base.html' %}
+
+{% block title %}Pomodoro Timer{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pomodoro.css') }}">
+<style>
+    .time-inputs {
+        margin-top: 15px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .time-inputs label {
+        color: var(--star-white);
+        font-size: 0.95rem;
+    }
+    .time-inputs input {
+        width: 100%;
+        padding: 8px;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: var(--star-white);
+        font-size: 0.9rem;
+    }
+    .time-inputs input:focus {
+        outline: none;
+        border-color: var(--nebula-purple);
+    }
+    .modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+    }
+    .modal-content {
+        background: var(--deep-space);
+        padding: 20px;
+        border-radius: 15px;
+        text-align: center;
+        max-width: 90%;
+        width: 300px;
+    }
+    .modal-content input {
+        width: 100%;
+        padding: 8px;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: var(--star-white);
+        margin-bottom: 10px;
+    }
+    .modal-content input:focus {
+        outline: none;
+        border-color: var(--nebula-purple);
+    }
+    .task-list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 15px;
+    }
+    .task-card {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 15px;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .task-card h4 {
+        color: var(--star-white);
+        margin: 0 0 10px;
+    }
+    .task-card p {
+        color: var(--star-white);
+        opacity: 0.8;
+        margin: 5px 0;
+        font-size: 0.9rem;
+    }
+    .task-tags {
+        margin-top: 10px;
+    }
+    .task-tags .tag {
+        background: var(--nebula-purple);
+        color: var(--star-white);
+        padding: 3px 8px;
+        border-radius: 12px;
+        font-size: 0.8rem;
+        margin-right: 5px;
+    }
+    .task-time {
+        margin-top: 10px;
+    }
+    .task-time p {
+        color: var(--star-white);
+        font-size: 0.9rem;
+        margin: 5px 0;
+    }
+    .selected-task-details .task-time {
+        margin-top: 10px;
+    }
+    .selected-task-details .task-time .work-time,
+    .selected-task-details .task-time .break-time {
+        font-size: 0.9rem;
+        color: var(--star-white);
+    }
+    @media (max-width: 480px) {
+        .modal-content { padding: 15px; max-width: 85%; }
+        .modal-content h3 { font-size: 1rem; }
+        .modal-content p { font-size: 0.9rem; }
+        .task-card { padding: 10px; }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="pomodoro-universe">
+    <div class="timer-container">
+        <div class="timer-orbit">
+            <div class="timer-planet"></div>
+        </div>
+        <div class="timer-display">25:00</div>
+        <div class="timer-controls">
+            <button id="start-btn" class="cosmic-btn primary">Start</button>
+            <button id="pause-btn" class="cosmic-btn secondary">Pause</button>
+            <button id="reset-btn" class="cosmic-btn secondary">Reset</button>
+        </div>
+        <div class="timer-mode">
+            <button class="mode-btn active" data-mode="work">Work</button>
+            <button class="mode-btn" data-mode="short-break">Short Break</button>
+            <button class="mode-btn" data-mode="long-break">Long Break</button>
+        </div>
+    </div>
+
+    <div class="current-task-container">
+        <h3>Current Task</h3>
+        <div class="selected-task-details">
+            <p>Select a task to start focusing.</p>
+        </div>
+    </div>
+
+    <div class="task-selector">
+        <h3>Available Tasks</h3>
+        {% if tasks|length > 0 %}
+            <select id="task-select">
+                <option value="">Select a task</option>
+                {% for task in tasks %}
+                    <option value="{{ task._id }}" data-work-time="{{ task.work_time }}" data-break-time="{{ task.break_time }}">{{ task.title }}</option>
+                {% endfor %}
+            </select>
+            <div class="time-inputs">
+                <label for="work-time">Work Duration (minutes):</label>
+                <input type="number" id="work-time" min="1" value="25" />
+                <label for="short-break-time">Short Break Duration (minutes):</label>
+                <input type="number" id="short-break-time" min="1" value="5" />
+                <label for="long-break-time">Long Break Duration (minutes):</label>
+                <input type="number" id="long-break-time" min="1" value="15" />
+            </div>
+            <br>
+            <h3>Available Tasks List </h3>
+            <div class="task-list">
+                {% for task in tasks %}
+                    <div class="task-card" data-task-id="{{ task._id }}">
+                        <h4>{{ task.title }}</h4>
+                        <p>{{ task.description|default('No description', true) }}</p>
+                        <div class="task-tags">
+                            {% for tag in task.tags %}
+                                <span class="tag">{{ tag }}</span>
+                            {% endfor %}
+                        </div>
+                        <div class="task-time">
+                            <p class="work-time" data-time="{{ task.work_time }}">Work Time: {{ (task.work_time / 60)|round(1) }} hours</p>
+                            <p class="break-time" data-time="{{ task.break_time }}">Break Time: {{ (task.break_time / 60)|round(1) }} hours</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="no-tasks">No tasks available for today. Add one in the dashboard!</p>
+        {% endif %}
+    </div>
+<div class="completed-sessions">
+    <h4>Completed Sessions <span class="sessions-count">0</span></h4>
+    <div class="sessions-header">
+        <span id="sessions-count" class="sessions-count">0 sessions</span>
+    </div>
+    <div id="sessions-list">
+        <p>No sessions completed yet.</p>
+    </div>
+</div>
+    
+    <div id="break-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h3>Work Session Complete!</h3>
+            <p id="break-prompt"></p>
+            <input type="number" id="new-work-time" placeholder="New work duration (minutes)" min="1" style="margin-bottom: 10px;"/>
+            <button id="start-break-btn" class="cosmic-btn primary">Take Break</button>
+            <button id="new-session-btn" class="cosmic-btn primary">New Session</button>
+            <button id="skip-break-btn" class="cosmic-btn secondary">Skip</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/pomodoro.js') }}"></script>
+{% endblock %}
