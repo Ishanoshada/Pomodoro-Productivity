@@ -212,5 +212,5 @@ Many of these routes enforce authentication and use session data to ensure the c
 - Report issues and submit feature requests via the GitHub issue tracker.
 - Developed by Ishan Oshada © 2025. All rights reserved – see the LICENSE file for complete license information.
 
-- 
+
 **Repository Views** ![Views](https://profile-counter.glitch.me/pomodoro-pro/count.svg)
