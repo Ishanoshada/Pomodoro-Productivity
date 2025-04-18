@@ -121,7 +121,7 @@ Experience the Cosmic Productivity Application in action:
 ![ss3](/ss3.png)
 ![ss4](/ss4.png)
 
-Check out the live demo [here](https://example-demo.com).
+Check out the live demo [here](https://pomodoro-productivity-time.vercel.app/).
 
 Explore the intuitive dashboard, task management features, and the space-themed Pomodoro timer in real time.
 
