@@ -7,3 +7,4 @@ Flask-Session==0.5.0
 bcrypt
 Jinja2
 MarkupSafe
+Flask-Minify
