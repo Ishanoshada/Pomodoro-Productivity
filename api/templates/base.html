@@ -4,8 +4,57 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Pomodoro Universe - {% block title %}{% endblock %}</title>
+        <!-- Optimized title tag with additional keywords -->
+        <title>Pomodoro Universe - Free Online Pomodoro Timer for Productivity & Focus</title>
+        <!-- Enhanced meta description with more keywords -->
+        <meta name="description" content="Pomodoro Universe is a free online Pomodoro timer application that helps you boost your productivity using the Pomodoro technique. Easily manage tasks, focus on your work sessions, reduce procrastination, and stay organized with our customizable Pomodoro timer.">
+        <!-- Added robots meta tag to ensure indexing -->
+        <meta name="robots" content="index, follow">
+        <!-- Schema markup for SoftwareApplication -->
+        <script type="application/ld+json">
+        {
+            "@context": "http://schema.org",
+            "@type": "SoftwareApplication",
+            "name": "Pomodoro Universe",
+            "applicationCategory": "Productivity",
+            "description": "A free online Pomodoro timer to enhance your productivity using the Pomodoro technique, time management, and focused work sessions.",
+            "url": "https://pomodoro-productivity-time.vercel.app/",
+            "image": "https://pomodoro-productivity-time.vercel.app/static/images/logo.png",
+            "operatingSystem": "Cross-platform",
+            "screenshot": "https://pomodoro-productivity-time.vercel.app/static/images/screenshot.png",
+            "author": {
+                "@type": "Person",
+                "name": "Ishan Oshada"
+            },
+            "license": "MIT License",
+            "version": "1.0",
+            "publisher": {
+                "@type": "Organization",
+                "name": "Pomodoro Universe"
+            },
+            "review": {
+                "@type": "Review",
+                "reviewBody": "Pomodoro Universe is a great tool for staying focused and productive. It's easy to use and customize, and it's free!",
+                "reviewRating": {
+                    "@type": "Rating",
+                    "ratingValue": "5"
+                }
+            }
+        }
+        </script>
         <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+        <meta name="google-site-verification" content="laXAyRbgLxlp8kztmxEIEYPgj_Yob-nH0dM1kl93jfQ" />
+        <meta name="keywords" content="Pomodoro, Pomodoro timer, free online Pomodoro timer, productivity, time management, focus, procrastination reduction, Pomodoro technique, working sessions, study sessions, tasks, task management, organization, organization tool, organization techniques, prioritization, goal setting">
+        <meta property="og:title" content="Pomodoro Universe - Free Online Pomodoro Timer for Productivity & Focus" />
+        <meta property="og:url" content="https://pomodoro-productivity-time.vercel.app/" />
+        <meta property="og:description" content="Pomodoro Universe is a free online Pomodoro timer application that helps you boost your productivity using the Pomodoro technique. Easily manage tasks, focus on your work sessions, reduce procrastination, and stay organized with our customizable Pomodoro timer." />
+        <meta property="og:image" content="https://pomodoro-productivity-time.vercel.app/static/images/logo.png" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Pomodoro Universe - Free Online Pomodoro Timer for Productivity & Focus" />
+        <meta name="twitter:description" content="Pomodoro Universe is a free online Pomodoro timer application that helps you boost your productivity using the Pomodoro technique. Easily manage tasks, focus on your work sessions, reduce procrastination, and stay organized with our customizable Pomodoro timer." />
+        <meta name="twitter:image" content="https://pomodoro-productivity-time.vercel.app/static/images/logo.png" />
+        <meta name="twitter:site" content="@pomodoro_universe" />
+        <meta name="twitter:creator" content="@ishanoshada" />
         {% block extra_css %}{% endblock %}
     </head>
 <body>
